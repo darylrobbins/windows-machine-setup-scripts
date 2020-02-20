@@ -1,0 +1,1 @@
+choco install -y azure-data-studio

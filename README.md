@@ -1,6 +1,8 @@
+# Note
+This project is forked from [microsoft/windows-dev-box-setup-scripts](https://github.com/microsoft/windows-dev-box-setup-scripts) and has been altered for my specific use. The difference is the scripts are adjusted for general and developer use, so it's not only a dev box.
 
 # About this project
-The goal of this project is to provide a central place to share ideas for streamlining dev box setup and provide sample scripts for common dev scenarios. It's likely you will want to take the scripts here and modify them to fit your particular needs. When you make those changes if you think others would benefit please consider submitting a PR. Before you contribute please see the [Contribution Guidelines](CONTRIBUTING.md).
+The goal of this project is to provide a central place to share ideas for streamlining machine setup and provide sample scripts for common scenarios. It's likely you will want to take the scripts here and modify them to fit your particular needs. When you make those changes if you think others would benefit please consider submitting a PR. Before you contribute please see the [Contribution Guidelines](CONTRIBUTING.md).
 
 These scripts leverage two popular open source projects.
 - Boxstarter [boxstarter.org](http://boxstarter.org)
