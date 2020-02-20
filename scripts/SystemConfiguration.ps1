@@ -1,6 +1,3 @@
-#--- Enable developer mode on the system ---
-Set-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\AppModelUnlock" -Name AllowDevelopmentWithoutDevLicense -Value 1
-
 # Disable start suggestion
 # https://blog.danic.net/stop-windows-10-enterprise-windows-10-pro-from-advertising-or-installing-unwanted-apps/
 # $regHKUPath = "HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager\"

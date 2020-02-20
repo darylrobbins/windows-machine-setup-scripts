@@ -24,24 +24,25 @@ function executeScript {
 #--- Setting up Windows ---
 executeScript "FileExplorerSettings.ps1";
 executeScript "SystemConfiguration.ps1";
+
+# Install SQL Server, must be installed before other VC++ Redist
+choco install -y sql-server-2019
+
+#--- Install applications ---
 executeScript "Browsers.ps1";
 executeScript "CommonApps.ps1";
 executeScript "CommonDevTools.ps1";
-Update-SessionEnvironment
+RefreshEnv
 
 Install-Module -Force posh-git
-Update-SessionEnvironment
 
-# Install SQL Server
-choco install -y sql-server-2019
 choco install -y sql-server-management-studio
 
 # For DbGeography if not mistaken
 # Should be Microsoft System CLR Types for SQL Server 2012 http://go.microsoft.com/fwlink/?LinkID=239644&clcid=0x409
 #choco install sql2016-clrtypes
 
-#--- Tools ---
-#--- Installing VS and VS Code with Git
+#--- Installing Visual Studio ---
 # See this for install args: https://chocolatey.org/packages/VisualStudio2019Community
 # https://docs.microsoft.com/en-us/visualstudio/install/workload-component-id-vs-community
 # https://docs.microsoft.com/en-us/visualstudio/install/use-command-line-parameters-to-install-visual-studio#list-of-workload-ids-and-component-ids
@@ -66,11 +67,50 @@ choco install -y visualstudio2019community --package-parameters="'$vsParams'"
 Update-SessionEnvironment #refreshing env due to Git install
 
 # --- Install Visual Studio extensions ---
-executeScript "Get-VSVsixExtensionUri.ps1"
+function getVSVsixExtensionUri {
+    [CmdletBinding()]
+    Param(
+        [Parameter(Mandatory = $true)]
+        [Alias("PackageName")]
+        [String]
+        $ItemId
+    )
+
+    $baseProtocol = "https:"
+    $baseHostName = "marketplace.visualstudio.com"
+
+    # Retrieve Visual Studio extension page
+    $response = Invoke-WebRequest -Uri "$baseProtocol//$baseHostName/items?itemName=$ItemId" -UseBasicParsing
+    $Html = New-Object -Com "HTMLFile"
+    $Html.IHTMLDocument2_write($response.Content)
+    $extensionName = $Html.Title
+    Write-Host "Found $extensionName..."
+
+    # Get extension download URL
+    $downloadAnchor = $Html.getElementsByTagName("a") | Where-Object -Property "ClassName" -EQ "install-button-container"
+    if (-Not $downloadAnchor) {
+        Write-Error "Couldn't find download anchor tag."
+        Exit 1
+    }
+    $downloadAnchor.protocol = $baseProtocol
+    $downloadAnchor.hostname = $baseHostName
+
+    # Get extension's actual URL that has filename
+    $downloadUri = $downloadAnchor.href
+    Write-Host "Getting actual download Uri from $downloadUri..."
+    $downloadResponse = Invoke-WebRequest -Uri $downloadUri
+    $actualDownloadUri = $downloadResponse.BaseResponse.ResponseUri
+    if (-Not $actualDownloadUri) {
+        Write-Error "Couldn't find actual download URL."
+        Exit 1
+    }
+
+    return $actualDownloadUri
+}
 
 function installVSExtension {
     param([string] $packageName)
-    $uri = Get-VSVsixExtensionUri -ItemId $packageName
+    $uri = getVSVsixExtensionUri -ItemId $packageName
     Install-VisualStudioVsixExtension -Name $packageName -Url $uri.AbsoluteUri
 }
 
