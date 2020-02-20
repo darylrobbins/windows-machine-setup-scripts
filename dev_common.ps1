@@ -26,8 +26,6 @@ executeScript "FileExplorerSettings.ps1";
 executeScript "SystemConfiguration.ps1";
 executeScript "Browsers.ps1";
 executeScript "CommonApps.ps1";
-executeScript "CommonDevTools.ps1";
-Update-SessionEnvironment
 
 Enable-UAC
 Enable-MicrosoftUpdate
