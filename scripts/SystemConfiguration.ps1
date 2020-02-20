@@ -31,3 +31,9 @@ Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\tzautoupdate" -N
 # Enable Show a notification when your PC requires a restart to finish updating
 #https://www.tenforums.com/tutorials/76305-turn-off-windows-update-restart-notifications-windows-10-a.html
 Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings" -Name "RestartNotificationsAllowed2" -Type DWord -Value 1
+
+# Set screensaver timeout to 5 mintues and display log-on screen
+#https://stackoverflow.com/questions/49791065/silently-set-the-screensaver-on-windows-from-the-command-line
+Set-ItemProperty -Path "HKCU:\Control Panel\Desktop" -Name "ScreenSaveActive" -Type String -Value 1
+Set-ItemProperty -Path "HKCU:\Control Panel\Desktop" -Name "ScreenSaverIsSecure" -Type String -Value 1
+Set-ItemProperty -Path "HKCU:\Control Panel\Desktop" -Name "ScreenSaveTimeOut" -Type String -Value 300
