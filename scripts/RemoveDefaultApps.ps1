@@ -1,3 +1,4 @@
+#--- Risky scripts, best do it on ownself ---
 #--- Uninstall unnecessary applications that come with Windows out of the box ---
 Write-Host "Uninstall some applications that come with Windows out of the box" -ForegroundColor "Yellow"
 
@@ -46,7 +47,7 @@ $applicationList = @(
 	"*BubbleWitch*"
     "king.com*"
     "G5*"
-	"*Dell*"
+	#"*Dell*"
 	"*Facebook*"
 	"*Keeper*"
 	"*Netflix*"

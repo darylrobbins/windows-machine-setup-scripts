@@ -15,16 +15,18 @@ Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentD
 #http://www.alexandreviot.net/2017/02/08/windows-10-enable-automatic-timezone/
 # 3 = enabled, 4 = disabled
 # Reference for setting specific timezone: https://www.windowscentral.com/how-change-your-device-time-zone-settings-windows-10
-Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\tzautoupdate\Start" -Name "Start" -Type DWord -Value 3
+Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\tzautoupdate" -Name "Start" -Type DWord -Value 3
 
 # --- Windows Security ---
 # Enable Windows Defender
 #https://www.itechtics.com/enable-disable-windows-defender/
-Set-MpPreference -DisableRealtimeMonitoring $false
+# Failed to work. Should be enabled by default anyway.
+# Set-MpPreference -DisableRealtimeMonitoring $false
 
 # Enable Windows Firewall
 #https://devblogs.microsoft.com/scripting/powertip-use-powershell-to-enable-the-windows-firewall/
-Set-NetFirewallProfile -Profile Domain,Public,Private -Enabled True
+# Should be enabled by default.
+# Set-NetFirewallProfile -Profile Domain,Public,Private -Enabled True
 
 # Enable Show a notification when your PC requires a restart to finish updating
 #https://www.tenforums.com/tutorials/76305-turn-off-windows-update-restart-notifications-windows-10-a.html
