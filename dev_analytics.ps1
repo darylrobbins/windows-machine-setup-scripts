@@ -1,8 +1,8 @@
 # Description: Boxstarter Script
-# Author: Microsoft
-# Common dev settings for machine learning using only Windows native tools
+# Author: Cheng Kai Sheng
 
 Disable-UAC
+$ConfirmPreference = "None" #ensure installing powershell modules don't prompt on needed dependencies
 
 # Get the base URI path from the ScriptToCall value
 $bstrappackage = "-bootstrapPackage"
@@ -18,15 +18,17 @@ write-host "helper script base URI is $helperUri"
 function executeScript {
     Param ([string]$script)
     write-host "executing $helperUri/$script ..."
-	iex ((new-object net.webclient).DownloadString("$helperUri/$script"))
+	Invoke-Expression ((new-object net.webclient).DownloadString("$helperUri/$script"))
 }
 
 #--- Setting up Windows ---
-executeScript "SystemConfiguration.ps1";
 executeScript "FileExplorerSettings.ps1";
-executeScript "RemoveDefaultApps.ps1";
-executeScript "GetMLIDEAndTooling.ps1";
-executeScript "PythonMLTools.ps1";
+executeScript "SystemConfiguration.ps1";
+executeScript "Browsers.ps1";
+executeScript "CommonApps.ps1";
+executeScript "CommonDevTools.ps1";
+
+choco install -y azure-data-studio
 
 Enable-UAC
 Enable-MicrosoftUpdate

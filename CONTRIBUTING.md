@@ -1,6 +1,6 @@
-## Contributing to Windows Dev Box Setup Scripts
+## Contributing to Windows Machine Setup Scripts
 
-The goal for **Windows Dev Box Setup Scripts** is to help developers get their dev box up and going quickly.
+The goal for **Windows Machine Setup Scripts** is to help people get their machine up and going quickly.
 
 ## Before you begin
 
@@ -9,7 +9,6 @@ We're grateful for any and all contributions.  Before you submit a PR we ask tha
 * Please create or comment on an existing issue to let us know you're interested in working on something before you start the work. Not only does this avoid multiple people unexpectedly working on the same thing at the same time but it also enables the community to discuss the particulars with you. It's less work for everyone, in the long run, to establish this up front.
 * When adding to a setup script, the addition should be useful to the majority of developers working with the dev stack the script is intended for.
 
-
 ## A good pull request
 
 Every contribution has to come with:
@@ -17,9 +16,6 @@ Every contribution has to come with:
 * Before making the change, **please open an issue** or comment on an existing issue, and start discussing with the community to see if the idea/feature is interesting enough.
 
 * For both new scripts and script changes please test the entire script on Windows 10.
-
-The core team will test the change to validate it before merging it.
-
 
 ## Repository Structure
 
@@ -51,11 +47,9 @@ Here's an example of how to set up a test workflow
 
 When you've made script changes to your fork you can run the updated script in this clean VM.  In this VM open a browser window and paste the 1-click link which will run your modified recipe script.
 
-`http://boxstarter.org/package/nr/url?https://raw.githubusercontent.com/GITHUB_DOMAIN/windows-dev-box-setup-scripts/YOUR_BRANCH/dev_web_nodejs.ps
+`http://boxstarter.org/package/nr/url?https://raw.githubusercontent.com/GITHUB_DOMAIN/windows-machine-setup-scripts/YOUR_BRANCH/dev_web_nodejs.ps
 `
 
 When you've finished testing, in Hyper-V Manager reset this VM to the clean checkpoint so it's ready the next time you test a script.
-
-
 
 Thank you!
