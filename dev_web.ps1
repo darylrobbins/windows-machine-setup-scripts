@@ -120,7 +120,7 @@ $extensionIdList = @(
     "SharpDevelopTeam.ILSpy",
     "PaulHarrington.EditorGuidelines",
     "VisualStudioPlatformTeam.ProductivityPowerPack2017",
-    #"TomasRestrepo.Viasfora",
+    "TomasRestrepo.Viasfora",
     "SonarSource.SonarLintforVisualStudio2019",
     "OlegShilo.DocPreview",
     "MadsKristensen.WebEssentials2019"
