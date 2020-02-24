@@ -82,7 +82,8 @@ function getVSVsixExtensionUri {
     # Retrieve Visual Studio extension page
     $response = Invoke-WebRequest -Uri "$baseProtocol//$baseHostName/items?itemName=$ItemId" -UseBasicParsing
     $Html = New-Object -Com "HTMLFile"
-    $Html.IHTMLDocument2_write($response.Content)
+    $src = [System.Text.Encoding]::Unicode.GetBytes($response.Content)
+    $Html.write($src)
     $extensionName = $Html.Title
     Write-Host "Found $extensionName..."
 
