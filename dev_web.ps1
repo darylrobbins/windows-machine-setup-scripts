@@ -110,7 +110,7 @@ function getVSVsixExtensionUri {
 
 function installVSExtension {
     param([string] $packageName)
-    $uri = getVSVsixExtensionUri -ItemId $packageName
+    $uri = getVSVsixExtensionUri -PackageName $packageName
     Install-VisualStudioVsixExtension -Name $packageName -Url $uri.AbsoluteUri
 }
 
@@ -125,7 +125,7 @@ $extensionIdList = @(
     "OlegShilo.DocPreview",
     "MadsKristensen.WebEssentials2019"
 )
-$extensionIdList | ForEach-Object -Process { installVSExtension $extensionId }
+$extensionIdList | ForEach-Object -Process { installVSExtension $_ }
 
 # --- Install additional dev tools ---
 choco install -y postman
