@@ -50,17 +50,18 @@ choco install -y sql-server-management-studio
 # visualstudio2019professional
 # visualstudio2019enterprise
 
-$paramList = @('--includeRecommended');
 $idList = @(
     "Microsoft.VisualStudio.Workload.Azure",
     "Microsoft.VisualStudio.Workload.NetWeb", 
     "Microsoft.VisualStudio.Workload.ManagedDesktop",
     "Microsoft.VisualStudio.Workload.NetCoreTools",
+    "Microsoft.VisualStudio.Component.Git",
     "Microsoft.Net.Component.4.7.2.SDK",
     "Microsoft.Net.Component.4.7.2.TargetingPack"
 );
+$paramList = @("--includeRecommended");
 $idList | ForEach-Object { $paramList += "--add $_" }
-$vsParams = [System.String]::Join(' ', $paramList)
+$vsParams = [string]::Join(' ', $paramList)
 
 choco install -y visualstudio2019community --package-parameters="'$vsParams'"
 Update-SessionEnvironment #refreshing env due to Git install
