@@ -56,7 +56,6 @@ $idList = @(
     "Microsoft.VisualStudio.Workload.NetWeb", 
     "Microsoft.VisualStudio.Workload.ManagedDesktop",
     "Microsoft.VisualStudio.Workload.NetCoreTools",
-    "Microsoft.VisualStudio.Component.Git",
     "Microsoft.Net.Component.4.7.2.SDK",
     "Microsoft.Net.Component.4.7.2.TargetingPack"
 );
@@ -130,6 +129,9 @@ $extensionIdList | ForEach-Object -Process { installVSExtension $_ }
 # --- Install additional dev tools ---
 choco install -y postman
 choco install -y prefix
+
+# --- Install Chocolatey ---
+executeScript "Chocolatey.ps1"
 
 Enable-UAC
 Enable-MicrosoftUpdate
