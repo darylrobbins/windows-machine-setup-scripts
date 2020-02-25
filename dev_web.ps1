@@ -117,8 +117,14 @@ function getVSVsixExtensionUri {
 
 function installVSExtension {
     param([string] $packageName)
-    $uri = getVSVsixExtensionUri -PackageName $packageName
-    Install-VisualStudioVsixExtension -Name $packageName -Url $uri.AbsoluteUri
+    try {
+        $uri = getVSVsixExtensionUri -PackageName $packageName
+        Install-VisualStudioVsixExtension -Name $packageName -Url $uri.AbsoluteUri
+    }
+    catch {
+        Write-Warning "Failed to install Visual Studio extension: $packageName"
+        Write-Error $_
+    }
 }
 
 $extensionIdList = @(
