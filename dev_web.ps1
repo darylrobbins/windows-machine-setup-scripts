@@ -63,7 +63,9 @@ $paramList = @("--includeRecommended");
 $idList | ForEach-Object { $paramList += "--add $_" }
 $vsParams = [string]::Join(' ', $paramList)
 
-choco install -y visualstudio2019community #--package-parameters="'$vsParams'" # Temporarily disable until Boxstarter fix issue #405 in release 2.13.0
+# Reorder the Chocolatey parameters to be package first before arguments.
+# Possibly due to Boxstarter issue #405
+choco install visualstudio2019community -y --package-parameters="'$vsParams'"
 Update-SessionEnvironment #refreshing env due to Git install
 
 # --- Install Visual Studio extensions ---
