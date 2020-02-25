@@ -69,6 +69,10 @@ choco install visualstudio2019community -y --package-parameters="'$vsParams'"
 Update-SessionEnvironment #refreshing env due to Git install
 
 # --- Install Visual Studio extensions ---
+# Import the chocolatey-visualstudio extensions for use.
+Import-Module $env:ChocolateyInstall\helpers\chocolateyInstaller.psm1
+Import-Module $env:ChocolateyInstall\extensions\chocolatey-visualstudio\*.psm1
+
 function getVSVsixExtensionUri {
     [CmdletBinding()]
     Param(
