@@ -91,7 +91,7 @@ function getVSVsixExtensionUri {
     $src = [System.Text.Encoding]::Unicode.GetBytes($response.Content)
     $Html.write($src)
     $extensionName = $Html.Title
-    Write-Host "Found $extensionName..."
+    Write-Host "Found $extensionName"
 
     # Get extension download URL
     $downloadAnchor = $Html.getElementsByTagName("a") | Where-Object -Property "ClassName" -EQ "install-button-container"
@@ -101,10 +101,11 @@ function getVSVsixExtensionUri {
     }
     $downloadAnchor.protocol = $baseProtocol
     $downloadAnchor.hostname = $baseHostName
+    
+    $downloadUri = $downloadAnchor.href
+    Write-Host "Found download URL: $downloadUri"
 
     # Get extension's actual URL that has filename
-    $downloadUri = $downloadAnchor.href
-    Write-Host "Getting actual download Uri from $downloadUri..."
     $downloadResponse = Invoke-WebRequest -Uri $downloadUri
     $actualDownloadUri = $downloadResponse.BaseResponse.ResponseUri
     if (-Not $actualDownloadUri) {
@@ -117,14 +118,20 @@ function getVSVsixExtensionUri {
 
 function installVSExtension {
     param([string] $packageName)
-    try {
-        $uri = getVSVsixExtensionUri -PackageName $packageName
-        Install-VisualStudioVsixExtension -Name $packageName -Url $uri.AbsoluteUri
-    }
-    catch {
-        Write-Warning "Failed to install Visual Studio extension: $packageName"
-        Write-Error $_
-    }
+
+    Start-Sleep -Seconds 3 # Avoid request block
+    $vsixUri = getVSVsixExtensionUri -PackageName $packageName
+
+    Start-Sleep -Seconds 3 # Avoid request block
+    $vsixFilename = Split-Path $vsixUri.AbsoluteUri -Leaf
+    $vsixFilePath = Join-Path $env:TEMP $vsixFilename
+    Write-Host "Downloading from $($vsixUri.AbsoluteUri)..."
+    Invoke-WebRequest -Uri $vsixUri.AbsoluteUri -OutFile $vsixFilePath
+
+    Write-Host "Installing VSIX from $vsixFilePath..."
+    Install-VisualStudioVsixExtension -Name $packageName -Url $vsixUri.AbsoluteUri
+
+    Remove-Item -Path $vsixFilePath -Force # Cleanup
 }
 
 $extensionIdList = @(
@@ -138,7 +145,21 @@ $extensionIdList = @(
     "OlegShilo.DocPreview",
     "MadsKristensen.WebEssentials2019"
 )
-$extensionIdList | ForEach-Object -Process { installVSExtension $_ }
+$failedExtensions = @()
+$extensionIdList | ForEach-Object -Process {
+    try {
+        installVSExtension $packageName
+    }
+    catch {
+        Write-Warning "Failed to install Visual Studio extension: $packageName"
+        Write-Error $_
+        $failedExtensions += $packageName
+    }
+}
+if($failedExtensions.Count -gt 0) {
+    Write-Warning "List of failed VS extension installation:"
+    $failedExtensions | ForEach-Object -Process { Write-Warning $_ }
+}
 
 # --- Install additional dev tools ---
 choco install -y postman
