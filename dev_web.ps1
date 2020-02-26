@@ -142,7 +142,7 @@ $extensionIdList = @(
     #"VisualStudioPlatformTeam.ProductivityPowerPack2017",
     "TomasRestrepo.Viasfora",
     "SonarSource.SonarLintforVisualStudio2019",
-    "OlegShilo.DocPreview",
+    "OlegShilo.DocPreview"
     #"MadsKristensen.WebEssentials2019"
 )
 $failedExtensions = @()
