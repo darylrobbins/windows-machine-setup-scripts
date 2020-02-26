@@ -139,11 +139,11 @@ $extensionIdList = @(
     "SteveCadwallader.CodeMaid",
     "SharpDevelopTeam.ILSpy",
     "PaulHarrington.EditorGuidelines",
-    "VisualStudioPlatformTeam.ProductivityPowerPack2017",
+    #"VisualStudioPlatformTeam.ProductivityPowerPack2017",
     "TomasRestrepo.Viasfora",
     "SonarSource.SonarLintforVisualStudio2019",
     "OlegShilo.DocPreview",
-    "MadsKristensen.WebEssentials2019"
+    #"MadsKristensen.WebEssentials2019"
 )
 $failedExtensions = @()
 $extensionIdList | ForEach-Object -Process {
