@@ -140,7 +140,7 @@ function installVSExtension {
     Invoke-WebRequest -Uri $vsixUri.AbsoluteUri -OutFile $vsixFilePath
 
     Write-Host "Installing VSIX from $vsixFilePath..."
-    Install-VisualStudioVsixExtension -Name $packageName -Url $vsixUri.AbsoluteUri
+    Install-VisualStudioVsixExtension -Name $packageName -Url $vsixFilePath
 
     Remove-Item -Path $vsixFilePath -Force # Cleanup
 }
