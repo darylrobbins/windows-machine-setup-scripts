@@ -88,8 +88,19 @@ function getVSVsixExtensionUri {
     # Retrieve Visual Studio extension page
     $response = Invoke-WebRequest -Uri "$baseProtocol//$baseHostName/items?itemName=$ItemId" -UseBasicParsing
     $Html = New-Object -Com "HTMLFile"
-    $src = [System.Text.Encoding]::Unicode.GetBytes($response.Content)
-    $Html.write($src)
+
+    # Parse the HTML page
+    # Referenced from https://stackoverflow.com/questions/46307976/unable-to-use-ihtmldocument2
+    try {
+        # This works in PowerShell with Office installed
+        $html.IHTMLDocument2_write($response.Content)
+    }
+    catch {
+        # This works when Office is not installed 
+        $src = [System.Text.Encoding]::Unicode.GetBytes($response.Content)
+        $Html.write($src)
+    }
+    
     $extensionName = $Html.Title
     Write-Host "Found $extensionName"
 
