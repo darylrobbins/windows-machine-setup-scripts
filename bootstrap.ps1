@@ -23,6 +23,17 @@ Add-AppxPackage -Path ~/winget-cli.appx
 
 cinst Microsoft-Hyper-V-All -source windowsFeatures
 cinst IIS-WebServerRole -source windowsfeatures
+cinst Microsoft-Windows-Subsystem-Linux -source windowsfeatures
+cinst VirtualMachinePlatform -source windowsfeatures
+cinst containers -source windowsfeatures
+
+Invoke-WebRequest -Uri https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi -OutFile ~/wsl_update_x64.msi -UseBasicParsing
+Start-Process msiexec.exe -Wait -ArgumentList '/I ~/wsl_update_x64.msi /passive /norestart'
+
+wsl --set-default-version 2
+
+# Install Ubuntu 20.04 WSL Distribution
+winget install --id=Canonical.Ubuntu --version=20.04 -e
 
 #####################
 # SOFTWARE
@@ -133,6 +144,10 @@ cinst 1password -y
 # cinst lightworks -y
 # cinst screentogif -y
 # cinst spotify --ignore-checksums -y
+
+# Containers
+cinst -y docker-for-windows
+cinst -y vscode-docker
 
 # Visual Studio
 cinst visualstudio2019community -y --package-parameters="--allWorkloads --includeRecommended --includeOptional --passive --locale en-US"
